@@ -103,7 +103,7 @@ std::map<int, CGAL::Polygon_with_holes_2<Exact_predicates_kernel>> compute_path_
 		if (filtered_sm.number_of_faces() > 0) {
 
 			int lab = label[*(CGAL::faces(filtered_sm).first)];
-			if (lab == 3 || lab == 8 || lab == 9) {
+			if (lab == 2 || lab == 5) {
 
 				Arrangement_2 arr;
 				std::map<Surface_mesh::vertex_index, Arrangement_2::Vertex_handle> point_map;

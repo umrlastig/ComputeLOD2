@@ -337,7 +337,7 @@ struct My_visitor : SMS::Edge_collapse_visitor_base<Surface_mesh> {
 		const Raster *raster;
 		std::chrono::time_point<std::chrono::system_clock> start_collecte;
 		std::chrono::time_point<std::chrono::system_clock> start_collapse;
-		bool output[5] = {false};
+		bool output[20] = {false};
 
 	public:
 		My_visitor(const Surface_mesh *mesh, const Raster *raster) : mesh(mesh), raster(raster) {}
@@ -366,25 +366,63 @@ struct My_visitor : SMS::Edge_collapse_visitor_base<Surface_mesh> {
 			}
 
 			if (cost) {
-				if(*cost > 1e-4 && !output[0]) {
-					output[0] = true;
-					save_mesh(*mesh,*raster,"mesh-1e-4.ply");
-				} else if(*cost > 0 && !output[1]) {
-					output[1] = true;
-					save_mesh(*mesh,*raster,"mesh-0.ply");
-				}
-				if(current_edge_count <= 100000 && !output[2]) {
-					output[2] = true;
-					save_mesh(*mesh,*raster,"mesh-100000.ply");
-				} else if(current_edge_count <= 10000 && !output[3]) {
-					output[3] = true;
-					save_mesh(*mesh,*raster,"mesh-10000.ply");
-				} else if(current_edge_count <= 5000 && !output[4]) {
-					output[4] = true;
-					save_mesh(*mesh,*raster,"mesh-5000.ply");
-				} else if(current_edge_count <= 1000000 && !output[5]) {
+				if(*cost > 19 && !output[19]) {
+					output[19] = true;
+					save_mesh(*mesh,*raster,"mesh-19.ply");
+				} else if(*cost > 18 && !output[18]) {
+					output[18] = true;
+					save_mesh(*mesh,*raster,"mesh-18.ply");
+				} else if(*cost > 17 && !output[17]) {
+					output[17] = true;
+					save_mesh(*mesh,*raster,"mesh-17.ply");
+				} else if(*cost > 16 && !output[16]) {
+					output[16] = true;
+					save_mesh(*mesh,*raster,"mesh-16.ply");
+				} else if(*cost > 15 && !output[15]) {
+					output[15] = true;
+					save_mesh(*mesh,*raster,"mesh-15.ply");
+				} else if(*cost > 14 && !output[14]) {
+					output[14] = true;
+					save_mesh(*mesh,*raster,"mesh-14.ply");
+				} else if(*cost > 13 && !output[13]) {
+					output[13] = true;
+					save_mesh(*mesh,*raster,"mesh-13.ply");
+				} else if(*cost > 12 && !output[12]) {
+					output[12] = true;
+					save_mesh(*mesh,*raster,"mesh-12.ply");
+				} else if(*cost > 11 && !output[11]) {
+					output[11] = true;
+					save_mesh(*mesh,*raster,"mesh-11.ply");
+				} else if(*cost > 10 && !output[10]) {
+					output[10] = true;
+					save_mesh(*mesh,*raster,"mesh-10.ply");
+				} else if(*cost > 9 && !output[9]) {
+					output[9] = true;
+					save_mesh(*mesh,*raster,"mesh-9.ply");
+				} else if(*cost > 8 && !output[8]) {
+					output[8] = true;
+					save_mesh(*mesh,*raster,"mesh-8.ply");
+				} else if(*cost > 7 && !output[7]) {
+					output[7] = true;
+					save_mesh(*mesh,*raster,"mesh-7.ply");
+				} else if(*cost > 6 && !output[6]) {
+					output[6] = true;
+					save_mesh(*mesh,*raster,"mesh-6.ply");
+				} else if(*cost > 5 && !output[5]) {
 					output[5] = true;
-					save_mesh(*mesh,*raster,"mesh-1000000.ply");
+					save_mesh(*mesh,*raster,"mesh-5.ply");
+				} else if(*cost > 4 && !output[4]) {
+					output[4] = true;
+					save_mesh(*mesh,*raster,"mesh-4.ply");
+				} else if(*cost > 3 && !output[3]) {
+					output[3] = true;
+					save_mesh(*mesh,*raster,"mesh-3.ply");
+				} else if(*cost > 2 && !output[2]) {
+					output[2] = true;
+					save_mesh(*mesh,*raster,"mesh-2.ply");
+				} else if(*cost > 1 && !output[1]) {
+					output[1] = true;
+					save_mesh(*mesh,*raster,"mesh-1.ply");
 				}
 			}
 
@@ -451,7 +489,7 @@ std::tuple<Surface_mesh, Surface_mesh> compute_meshes(const Raster &raster) {
 
 	save_mesh(mesh, raster, "initial-mesh.ply");
 
-	Cost_stop_predicate stop(10);
+	Cost_stop_predicate stop(20);
 	//SMS::Count_stop_predicate<Surface_mesh> stop(1000);
 	Custom_cost cf(raster);
 	Custom_placement pf(raster);

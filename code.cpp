@@ -113,27 +113,7 @@ void save_mesh(const Surface_mesh &mesh, const Raster &raster, const char *filen
 	raster.grid_to_coord(0, 0, min_x, min_y);
 
 	char *temp;
-	const char *options_json[] = { "MULTILINE=NO", NULL };
-	raster.get_crs().exportToPROJJSON(&temp, options_json);
-	std::string crs_as_json(temp);
-	CPLFree(temp);
-
-	crs_as_json = regex_replace(crs_as_json, std::regex(",\"id\":\\{\"authority\":\"EPSG\",\"code\":[^\\}]+\\}"), "");
-	crs_as_json = regex_replace(crs_as_json, std::regex("Lambert-93"), "Custom");
-
-	std::smatch matches;
-	regex_search(crs_as_json, matches, std::regex("\"name\":\"Northing at false origin\",\"value\":([^,]+),"));
-	crs_as_json = regex_replace(crs_as_json, std::regex("\"name\":\"Northing at false origin\",\"value\":([^,]+),"), "\"name\":\"Northing at false origin\",\"value\":" + std::to_string(std::stoi(matches[1]) - min_y) + ",");
-
-	regex_search(crs_as_json, matches, std::regex("\"name\":\"Easting at false origin\",\"value\":([^,]+),"));
-	crs_as_json = regex_replace(crs_as_json, std::regex("\"name\":\"Easting at false origin\",\"value\":([^,]+),"), "\"name\":\"Easting at false origin\",\"value\":" + std::to_string(std::stoi(matches[1]) - min_x) + ",");
-
-	OGRSpatialReference output_crs;
-	output_crs.SetFromUserInput(crs_as_json.c_str());
-	output_crs.AutoIdentifyEPSG();
-
-	/*const char *options_wkt[] = { "MULTILINE=NO", "FORMAT=WKT2", NULL };
-	output_crs.exportToWkt(&temp, options_wkt);*/ output_crs.exportToProj4(&temp); // WKT format is too long for MeshLab
+	raster.get_crs().exportToProj4(&temp);
 	std::string crs_as_wkt(temp);
 	CPLFree(temp);
 
@@ -147,8 +127,8 @@ void save_mesh(const Surface_mesh &mesh, const Raster &raster, const char *filen
 	CGAL::Polygon_mesh_processing::reverse_face_orientations(output_mesh); 	
 
 	std::ofstream mesh_ofile (filename, std::ios_base::binary);
-	CGAL::IO::set_binary_mode (mesh_ofile);
-	CGAL::IO::write_PLY (mesh_ofile, output_mesh, "crs " + crs_as_wkt);
+	//CGAL::IO::set_binary_mode (mesh_ofile);
+	CGAL::IO::write_PLY (mesh_ofile, output_mesh, "crs " + crs_as_wkt + "\nx0 " + std::to_string(min_x) + "\ny0 " + std::to_string(min_y));
 	mesh_ofile.close();
 }
 
@@ -221,7 +201,7 @@ void change_vertical_faces(Surface_mesh &mesh, const Raster &raster) {
 				}
 			}*/
 
-			int face_label[LABELS.size()] = {0};
+			/*int face_label[LABELS.size()] = {0};
 			int sum_face_label = 0;
 
 			CGAL::Vertex_around_face_iterator<Surface_mesh> vbegin, vend;
@@ -236,14 +216,14 @@ void change_vertical_faces(Surface_mesh &mesh, const Raster &raster) {
 			if (face_label[4] > 0) {
 				//Building
 				new_label[face] = 4;
-			} else if (face_label[5] > 0) {
+			} else if (face_label[3] > 0) {
 				//High vegetation
-				new_label[face] = 5;
+				new_label[face] = 3;
 			}
 
-			if (new_label[face] != 4 && new_label[face] != 5) {
+			if (new_label[face] != 4 && new_label[face] != 3) {
 				new_label[face] = 0;
-			}
+			}*/new_label[face] = 0;
 		}
 	}
 

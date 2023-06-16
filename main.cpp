@@ -152,25 +152,30 @@ int main(int argc, char **argv) {
 	save_mesh(mesh, raster, "final-closed-mesh-with-path.ply");
 	std::cout << "Mesh waterthighted" << std::endl;
 
-	AABB_tree tree = index_surface_mesh(mesh);
+	/*AABB_tree tree = index_surface_mesh(mesh);
 
 	std::vector<pathBridge> bridges_to_add;
 	int i = 0;
 	std::cout << "Computing " << links.size() << " bridges" << std::endl;
 	for (auto link: links) {
 		std::cout << "\rBridge " << i++ << "/" << links.size() << "               ";
+		//std::cout << link.first.path << " " << link.second.path << " " << link.first.point.x() << " " << link.second.point.x() << "\n";
 		std::cout.flush();
+		//if (i == 212) {
+		//if (link.first.path == 53 && link.second.path == 172) { // || link.first.path == 53 && link.second.path == 94) {
+		//if (abs(link.first.point.x() - 254.903) < 1 && abs(link.second.point.x() - 253.322) < 1) {
 		pathBridge bridge_result = bridge(link, mesh, tree, raster);
 		if (bridge_result.cost < 50) {
 			bridges_to_add.push_back(bridge_result);
 		}
+		//}//}
 	}
 	std::cout << "\rBridges computed               " << std::endl;
 
 	add_bridge_to_mesh(mesh, bridges_to_add, path_polygon, raster);
 
 	save_mesh(mesh, raster, "final-closed-mesh-with-path-and-bridges.ply");
-	std::cout << "Bridges added to mesh" << std::endl;
+	std::cout << "Bridges added to mesh" << std::endl;*/
 
 	return EXIT_SUCCESS;
 }
